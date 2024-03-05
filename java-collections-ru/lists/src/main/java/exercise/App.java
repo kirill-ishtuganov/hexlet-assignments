@@ -9,16 +9,13 @@ class App {
 
     public static boolean scrabble(String letters, String word) {
 
-        char[] arrayOfWordLetters = word.toLowerCase().toCharArray();
-        char[] arrayOfLetters = letters.toCharArray();
-        List<Character> listOfLetters = new ArrayList<>();
-        for (var letter : arrayOfLetters) {
-            listOfLetters.add(letter);
-        }
+        String[] arrayOfWordLetters = word.toLowerCase().split("");
+        String[] arrayOfLetters = letters.split("");
+        List<String> listOfLetters = new ArrayList<>(Arrays.asList(arrayOfLetters));
 
         for (var letter : arrayOfWordLetters) {
             if (listOfLetters.contains(letter)) {
-                listOfLetters.remove(listOfLetters.indexOf(letter));
+                listOfLetters.remove(letter);
             } else {
                 return false;
             }
