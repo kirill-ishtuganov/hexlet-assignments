@@ -9,7 +9,7 @@ public final class App {
     public static Javalin getApp() {
 
         // BEGIN
-        Javalin app = Javalin.create().start(7070);
+        Javalin app = Javalin.create();
         app.get("/welcome", ctx -> ctx.result("Welcome to Hexlet!"));
         return app;
         // END
