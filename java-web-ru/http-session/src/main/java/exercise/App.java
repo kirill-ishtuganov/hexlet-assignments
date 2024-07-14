@@ -20,11 +20,8 @@ public final class App {
         app.get("/users", ctx -> {
             var page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
             var per = ctx.queryParamAsClass("per", Integer.class).getOrDefault(5);
-            ArrayList<Map<String, String>> result = new ArrayList<>();
-
-            for (var i = page * per - per; i < page * per; i++) {
-                result.add(USERS.get(i));
-            }
+            var offset = (page - 1) * per;
+            List<Map<String, String>> result = USERS.subList(offset, offset + per);
             ctx.json(result);
         });
         // END
