@@ -8,7 +8,12 @@ import lombok.Getter;
 
 
 // BEGIN
-
+@AllArgsConstructor
+@Getter
+public class PostsPage {
+    private int page;
+    private List<Post> posts;
+}
 // END
 
 
