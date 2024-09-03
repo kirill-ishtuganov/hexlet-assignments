@@ -25,21 +25,12 @@ public class ProductsController {
 
     // BEGIN
     @GetMapping(path = "")
-    public List<Product> findProductByPrice(@RequestParam(required = false) Integer min,
-                                            @RequestParam(required = false) Integer max) {
-        if (min != null && max != null)
-            return productRepository.findProductByPriceBetween(min, max).stream()
-                    .sorted(Comparator.comparing(Product::getPrice))
-                    .collect(Collectors.toList());
-        if (min != null)
-            return productRepository.findAllByPriceGreaterThanEqual(min).stream()
-                    .sorted(Comparator.comparing(Product::getPrice))
-                    .collect(Collectors.toList());
-        if (max != null)
-            return productRepository.findAllByPriceLessThanEqual(max).stream()
-                    .sorted(Comparator.comparing(Product::getPrice))
-                    .collect(Collectors.toList());
-        else return productRepository.findAll();
+    public List<Product> index(
+            @RequestParam(defaultValue = Integer.MIN_VALUE + "") Integer min,
+            @RequestParam(defaultValue = Integer.MAX_VALUE + "") Integer max) {
+
+        Sort sort = Sort.by(Sort.Order.asc("price"));
+        return productRepository.findByPriceBetween(min, max, sort);
     }
     // END
 
