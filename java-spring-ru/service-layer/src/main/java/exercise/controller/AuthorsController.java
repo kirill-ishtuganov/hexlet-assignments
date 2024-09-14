@@ -28,41 +28,32 @@ public class AuthorsController {
     private AuthorService authorService;
 
     // BEGIN
-    @GetMapping("")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<AuthorDTO>> index() {
-        var authors = authorService.getAll();
-
-        return ResponseEntity.ok()
-                .header("X-Total-Count", String.valueOf(authors.size()))
-                .body(authors);
+    @GetMapping(path = "")
+    public List<AuthorDTO> index() {
+        return authorService.getAllAuthors();
     }
 
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<AuthorDTO> show(@PathVariable Long id) {
-        var author = authorService.findById(id);
-
-        return ResponseEntity.ok()
-                .body(author);
+    @GetMapping(path = "/{id}")
+    public AuthorDTO show(@PathVariable long id) {
+        return authorService.getAuthorById(id);
     }
 
-    @PostMapping("")
+    @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
-    AuthorDTO create(@Valid @RequestBody AuthorCreateDTO aData) {
-        return authorService.create(aData);
+    public AuthorDTO create(@Valid @RequestBody AuthorCreateDTO authorData) {
+        return authorService.createAuthor(authorData);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    AuthorDTO update(@RequestBody @Valid AuthorUpdateDTO aData, @PathVariable Long id) {
-        return authorService.update(aData, id);
+    AuthorDTO update(@RequestBody @Valid AuthorUpdateDTO authorData, @PathVariable Long id) {
+        return authorService.updateAuthor(authorData, id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void destroy(@PathVariable Long id) {
-        authorService.delete(id);
+        authorService.deleteAuthor(id);
     }
     // END
 }
