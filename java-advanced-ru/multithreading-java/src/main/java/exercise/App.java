@@ -1,7 +1,7 @@
 package exercise;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class App {
@@ -13,21 +13,24 @@ class App {
         MinThread minThread = new MinThread(array);
         MaxThread maxThread = new MaxThread(array);
         minThread.start();
+        LOGGER.log(Level.INFO, "Thread " + minThread.getName() + " started");
+        maxThread.start();
+        LOGGER.log(Level.INFO, "Thread " + maxThread.getName() + " started");
+
         try {
             minThread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        maxThread.start();
-        try {
+            LOGGER.log(Level.INFO, "Thread " + minThread.getName() + " finished");
             maxThread.join();
+            LOGGER.log(Level.INFO, "Thread " + maxThread.getName() + " finished");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        Map<String, Integer> result = new HashMap<>();
-        result.put("max", maxThread.getMax());
-        result.put("min", minThread.getMin());
+        Map<String, Integer> result = Map.of(
+                "min", minThread.getMin(),
+                "max", maxThread.getMax()
+        );
+        LOGGER.log(Level.INFO, "Result: " + result);
         return result;
     }
     // END
